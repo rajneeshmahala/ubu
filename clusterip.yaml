@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginxclusterip
+spec:
+  type: ClusterIP
+  ports:
+  - name: httpd
+    port: 80
+    targetPort: 80
+    protocol: TCP
+  selector:
+    app: webapp
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webserver
+  labels:
+    app: webapp
+    tier: backend
+spec:
+  containers:
+  - name: nginx-web
+    image: nginx
+    ports:
+    - containerPort: 80
